@@ -1,5 +1,8 @@
 
 let gl = undefined;
+let ms = new MatrixStack();
+let cylinder, axes, tetrahedron;
+let angle = 0.0;
 
 function init() {
     let canvas = document.getElementById("webgl-canvas");
@@ -10,38 +13,57 @@ function init() {
     gl.clearColor(0.8, 0.9, 1.0, 1.0); //Set background color
     gl.enable(gl.DEPTH_TEST);
 
-    cone = new Cone();
-    sphere = new Sphere();
-    tetrahedron = new Tetrahedron();
+    cone = new Cone(gl, 25);
+    axes = new Axes(gl);
+    tetrahedron = new Tetrahedron(gl);
 
     render();
 }
 
-let ms = new MatrixStack();
-let cone, axes, tetrahedron;
 function render() {
     // Add rendering code here
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     ms.loadIdentity();
 
+    // ms.push();
+    // ms.translate(-.5, 0.0, -1.0);
+    // ms.scale(0.2);
+    // //ms.rotate(Math.PI / 4, 0.0, 1.0, 0.0);
+    // cone.MV = ms.current();
+    // cone.draw(ms);
+    // ms.pop();
+
     ms.push();
-    ms.translate(-0.5, 0.0, -1.0);
-    ms.scale(0.2, 0.2, 0.2);
-    ms.rotate(Math.PI / 4, 0.0, 1.0, 0.0);
-    cone.draw(ms);
+    //ms.translate(-.5, 0.0, 0.0);
+    ms.rotate(angle, [0, 1, 1]);
+    ms.scale(0.3);
+    
+    cone.MV = ms.current();
+    //ms.color = vec4(0.3, 0.8, 0.8, 1.0);
+    cone.draw();
     ms.pop();
 
     ms.push();
-    ms.translate(0.5, 0.0, -1.0);
-    ms.rotate(Math.PI / 4, 0.0, 1.0, 0.0);
-    axes.draw(ms);
+    ms.translate(-0.5, 0.0, 0.0);
+    ms.rotate(angle, [.2, .3, .2]);
+    ms.translate(0.0, 0.0, 0.2);
+    ms.scale(0.6);
+    axes.MV = ms.current();
+    axes.draw();
     ms.pop();
 
+    angle += 3.0;
+    angle %= 360.0;
     ms.push();
-    ms.translate(0.0, 0.5, -1.0);
-    ms.rotate(-Math.PI / 4, 1.0, 0.0, 0.0);
-    tetrahedron.draw(ms);
+    ms.translate(0.5, 0.0, 0.0);
+    ms.rotate(angle, [1, 1, 0]);
+    ms.scale(0.2);
+    //ms.color = vec4(0.3, 0.8, 0.8, 1.0);
+    tetrahedron.MV = ms.current();
+    tetrahedron.draw();
     ms.pop();
+
+
 
     requestAnimationFrame(render);
 }
