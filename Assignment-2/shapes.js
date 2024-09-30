@@ -33,29 +33,41 @@ function render() {
     // cone.draw(ms);
     // ms.pop();
 
+    coneX = 0.8 * Math.cos(angle * Math.PI / 180);
+    coneY = 0.4 * Math.sin(angle * Math.PI / 180);
+
     ms.push();
-    //ms.translate(-.5, 0.0, 0.0);
+    ms.translate(coneX, coneY, 0.0);
     ms.rotate(angle, [0, 1, 1]);
-    ms.scale(0.3);
-    
+    ms.scale(0.2);
     cone.MV = ms.current();
     //ms.color = vec4(0.3, 0.8, 0.8, 1.0);
     cone.draw();
     ms.pop();
 
+
+    axesX = 0.7 * Math.cos((angle + 90) * Math.PI / 180);
+    axesY = 0.5 * Math.sin((angle + 90) * Math.PI / 180);
+
     ms.push();
-    ms.translate(-0.5, 0.0, 0.0);
+    ms.translate(axesX, axesY, 0.0);
     ms.rotate(angle, [.2, .3, .2]);
     ms.translate(0.0, 0.0, 0.2);
-    ms.scale(0.6);
+    ms.scale(0.5);
     axes.MV = ms.current();
     axes.draw();
     ms.pop();
 
-    angle += 3.0;
+
+    angle += 1.0;
     angle %= 360.0;
+
+    tetX = 0.2 * Math.cos((angle + 180) * Math.PI / 180);
+    tetY = 0.5 * Math.sin((angle + 180) * Math.PI / 180);
+
+
     ms.push();
-    ms.translate(0.5, 0.0, 0.0);
+    ms.translate(tetX, tetY, 0.0);
     ms.rotate(angle, [1, 1, 0]);
     ms.scale(0.2);
     //ms.color = vec4(0.3, 0.8, 0.8, 1.0);
