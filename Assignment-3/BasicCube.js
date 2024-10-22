@@ -29,8 +29,8 @@ class BasicCube {
             in  vec4 vColor;
             out vec4 fColor;
             void main() {
-                const vec4 frontColor = vec4(1.0, 1.0, 1.0, 1.0); // White for front-facing
-                const vec4 backColor = vec4(1, 0.5, 0.5, 1.0); // Gray for back-facing
+                const vec4 frontColor = vec4(1.0, 1.0, 1.0, 1.0);
+                const vec4 backColor = vec4(1, 0.5, 0.5, 1.0);
                 fColor = gl_FrontFacing ? frontColor : backColor; // Determine color based on face
             }
         `;
@@ -84,23 +84,39 @@ class BasicCube {
             1.0, 0.0, 1.0  // Magenta
         ]);
 
+        // Define indices for the cube
+        const indices = new Uint16Array([
+            0, 1, 2, 0, 2, 3,
+            4, 5, 6, 4, 6, 7,
+            8, 9, 10, 8, 10, 11,
+            12, 13, 14, 12, 14, 15,
+            16, 17, 18, 16, 18, 19,
+            20, 21, 22, 20, 22, 23,
+        ]);
 
-
+        // Create ShaderProgram
         let program = new ShaderProgram(gl, this, vertexShader, fragmentShader);
 
+        // Create the position attribute
         let aPosition = new Attribute(gl, program, "aPosition", positions, 3, gl.FLOAT);
+        
+        // Create an index buffer
+        let indexBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
 
+        // Draw method
         this.draw = () => {
-            program.use();
+            program.use(); // Use the shader program and update uniforms
 
+            // Enable and bind the position attribute
             aPosition.enable();
 
-            // Draw the cube (12 triangles)
-            gl.drawArrays(gl.TRIANGLES, 0, 36);
+            // Draw the cube using the index buffer
+            gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
 
             // Clean up
             aPosition.disable();
-            
         };
     }
 };
