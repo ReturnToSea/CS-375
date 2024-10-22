@@ -17,7 +17,7 @@ class IndexedCube {
             out vec4 vColor;
 
             void main() {
-                vColor = aColor; // Pass color to fragment shader
+                vColor = aColor;
                 gl_Position = P * MV * aPosition;
             }
         `;
@@ -27,7 +27,7 @@ class IndexedCube {
             in vec4 vColor;
             out vec4 fColor;
             void main() {
-                fColor = vColor; // Pass through color
+                fColor = vColor;
             }
         `;
 

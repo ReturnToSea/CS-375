@@ -29,12 +29,11 @@ class BasicCube {
             in  vec4 vColor;
             out vec4 fColor;
             void main() {
-                const vec4 frontColor = vec4(1.0, 1.0, 1.0, 1.0);
-                const vec4 backColor = vec4(1, 0.5, 0.5, 1.0);
-                fColor = gl_FrontFacing ? frontColor : backColor; // Determine color based on face
+                fColor = vColor;
             }
-        `;
-
+        `; 
+        
+        //fColor = gl_FrontFacing ? frontColor : backColor;
          let positions = new Float32Array([
             // Front face
             -0.5, -0.5,  0.5,  // Vertex 0
