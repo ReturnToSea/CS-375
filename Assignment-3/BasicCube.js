@@ -84,7 +84,6 @@ class BasicCube {
             1.0, 0.0, 1.0  // Magenta
         ]);
 
-        // Define indices for the cube
         const indices = new Uint16Array([
             0, 1, 2, 0, 2, 3,
             4, 5, 6, 4, 6, 7,
@@ -94,28 +93,25 @@ class BasicCube {
             20, 21, 22, 20, 22, 23,
         ]);
 
-        // Create ShaderProgram
         let program = new ShaderProgram(gl, this, vertexShader, fragmentShader);
 
-        // Create the position attribute
         let aPosition = new Attribute(gl, program, "aPosition", positions, 3, gl.FLOAT);
+        let aColor = new Attribute(gl, program, "aColor", colors, 4, gl.FLOAT);
         
-        // Create an index buffer
         let indexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
 
         // Draw method
         this.draw = () => {
-            program.use(); // Use the shader program and update uniforms
+            program.use();
 
-            // Enable and bind the position attribute
             aPosition.enable();
-
-            // Draw the cube using the index buffer
+            aColor.enable();
+            
             gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
 
-            // Clean up
+            aColor.disable();
             aPosition.disable();
         };
     }
