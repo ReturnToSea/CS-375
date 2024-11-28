@@ -4,32 +4,27 @@ export class Ocean {
   constructor(scene) {
     this.scene = scene;
 
-    // Load the textures
     this.textureLoader = new THREE.TextureLoader();
-    this.baseColorTexture = this.textureLoader.load('Textures/Ocean/Ground062L_2K-PNG_Color.png'); // Base color texture
-    this.normalMap = this.textureLoader.load('Textures/Ocean/Ground062L_2K-PNG_NormalGL.png'); // Normal map (OpenGL)
-    this.roughnessMap = this.textureLoader.load('Textures/Ocean/Ground062L_2K-PNG_Roughness.png'); // Roughness map
+    this.baseColorTexture = this.textureLoader.load('Textures/Ocean/Ground062L_2K-PNG_Color.png');
+    this.normalMap = this.textureLoader.load('Textures/Ocean/Ground062L_2K-PNG_NormalGL.png');
+    this.roughnessMap = this.textureLoader.load('Textures/Ocean/Ground062L_2K-PNG_Roughness.png');
 
-    // Create the material with textures
     this.material = new THREE.MeshStandardMaterial({
-      map: this.baseColorTexture, // Base color texture
-      normalMap: this.normalMap, // Normal map for surface details
-      roughnessMap: this.roughnessMap, // Roughness map for surface interaction
-      roughness: 0.6, // Default roughness value
-      metalness: 0.0, // Default metalness value
-      color: new THREE.Color(0x555555) // Apply a darker neutral color (gray) to the material
+      map: this.baseColorTexture,
+      normalMap: this.normalMap,
+      roughnessMap: this.roughnessMap,
+      roughness: 0.6,
+      metalness: 0.0,
+      color: new THREE.Color(0x555555)
     });
 
-    // Create the geometry (plane for the ocean floor)
-    this.geometry = new THREE.PlaneGeometry(5, 5); // Start with a reasonable size for the plane
+    this.geometry = new THREE.PlaneGeometry(5, 5);
 
-    // Create the mesh and apply the material
     this.floor = new THREE.Mesh(this.geometry, this.material);
-    this.floor.rotation.x = -Math.PI / 2; // Rotate to make the floor flat
-    this.floor.position.y = -8;  // Position the ocean floor slightly below the camera
+    this.floor.rotation.x = -Math.PI / 2;
+    this.floor.position.y = -8;
 
-    // Scale the ocean floor to make it bigger, but keep it proportional
-    this.floor.scale.set(15, 10, 1); // Scale in the X and Y direction to make it larger
+    this.floor.scale.set(15, 10, 1);
 
     this.scene.add(this.floor);
   }

@@ -8,14 +8,14 @@ export class Fish {
     this.fish = null;
     this.mixer = null;
 
-    this.direction = new THREE.Vector3(1, 0, 0); // Default direction (facing right)
-    this.speed = 0.005; // Swimming speed
-    this.rotationSpeed = 0.005; // Rotation speed
+    this.direction = new THREE.Vector3(1, 0, 0); //facing right
+    this.speed = 0.005; //swimming speed
+    this.rotationSpeed = 0.005; //rotation speed
 
-    this.targetRotation = Math.PI / 2; // Default facing direction (right)
+    this.targetRotation = Math.PI / 2; //facing right
 
     this.loadModel();
-    this.changeDirection(); // Set an initial random direction
+    this.changeDirection();
     this.setupRandomDirectionChange();
   }
 
@@ -24,14 +24,14 @@ export class Fish {
       this.fish = gltf.scene;
       this.scene.add(this.fish);
 
-      // Set initial rotation
+      //initial rotation
       this.fish.rotation.y = Math.PI / 2;
 
-      // Scale and position the model
+      //scale and position
       this.fish.scale.set(0.5, 0.5, 0.5);
       this.fish.position.set(0, 0, 0);
 
-      // Play the animation if available
+      //play animation
       if (gltf.animations.length > 0) {
         this.mixer = new THREE.AnimationMixer(this.fish);
         gltf.animations.forEach((clip) => {
@@ -41,38 +41,37 @@ export class Fish {
     });
   }
 
-  // Change direction to a random value (rotate the fish)
+  //change direction
   changeDirection() {
-    this.targetRotation = Math.random() * Math.PI * 2; // Random direction (0 to 2π)
+    this.targetRotation = Math.random() * Math.PI * 2;
   }
 
-  // Update the fish's rotation smoothly towards the target direction
+  //update the fish rotation 
   rotateFish() {
     let angleDiff = this.targetRotation - this.fish.rotation.y;
 
-    // Normalize the angle difference to the range [-π, π]
+    //normalize angle difference
     if (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
     if (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
 
-    // Smoothly rotate the fish towards the target direction
+    //rotate the fish
     this.fish.rotation.y += Math.sign(angleDiff) * this.rotationSpeed;
   }
 
-  // Move the fish in the direction it's facing
+  //move the fish
   moveFish() {
     if (this.fish) {
-      // Move the fish in the direction it's facing
       this.fish.position.x += Math.sin(this.fish.rotation.y) * this.speed;
       this.fish.position.z += Math.cos(this.fish.rotation.y) * this.speed;
 
-      // Boundaries to prevent the fish from swimming off-screen
+      //boundaries
+      //TODO: fix boundaries
       const w = window.innerWidth;
       const h = window.innerHeight;
 
       // Assuming the camera's z position is at 5
       const cameraZ = 5;
 
-      // Boundaries (in world coordinates, based on the window size)
       const minBoundX = -w / 2;
       const maxBoundX = w / 2;
       const minBoundZ = -h / 2;
@@ -85,20 +84,20 @@ export class Fish {
     }
   }
 
-  // Set up random direction change every 5 seconds
+  //random direction change 5 seconds
   setupRandomDirectionChange() {
     setInterval(() => {
-      this.changeDirection(); // Change direction randomly every 5 seconds
+      this.changeDirection();
     }, 5000);
   }
 
   update() {
-    // Update the animation mixer
+    //update animation
     if (this.mixer) {
-      this.mixer.update(0.01); // Update animation
+      this.mixer.update(0.01);
     }
 
-    this.rotateFish();  // Rotate the fish smoothly
-    this.moveFish();    // Move the fish in the direction it's facing
+    this.rotateFish();
+    this.moveFish();
   }
 }
