@@ -26,10 +26,9 @@ export class Ocean {
 
     this.floor.scale.set(15, 10, 1);
 
+    this.floor.receiveShadow = true;
+
     this.scene.add(this.floor);
   }
 
-  update() {
-    // Any updates to the ocean floor can be done here if needed
-  }
 }

@@ -1,12 +1,24 @@
 import * as THREE from 'three';
+import { createLighting } from './lights.js'; 
 import { Fish } from './fish.js';
 import { Ocean } from './ocean.js';
+import { Coral } from './coral.js';
+import { Coral2 } from './coral2.js';
+import { Coral3 } from './coral3.js';
+import { WaterPlant } from './water_plant.js';
+import { Orca } from './orca.js'
+import { Crab } from './crab.js'
+import { TreasureChest } from './chest.js'
+import { Anchor } from './anchor.js';
+import { Rock } from './rock.js';
 
 const w = window.innerWidth;
 const h = window.innerHeight;
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(w, h);
+renderer.shadowMap.enabled = true;
+renderer.shadowMapSoft = true;
 document.body.appendChild(renderer.domElement);
 
 const fov = 75;
@@ -24,24 +36,50 @@ scene.background = gradientTexture;
 
 const ocean = new Ocean(scene);
 const fish = new Fish(scene);
+const coral = new Coral(scene);
+const coral2 = new Coral2(scene);
+const coral3 = new Coral3(scene);
+const waterPlant = new WaterPlant(scene);
+const orca = new Orca(scene);
+const crab = new Crab(scene);
+const chest = new TreasureChest(scene);
+const anchor = new Anchor(scene);
+const rock = new Rock(scene);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambientLight);
+const { ambientLight, directionalLight } = createLighting(scene);
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(5, 5, 5).normalize();
-scene.add(directionalLight);
+fish.castShadow = true;
+fish.receiveShadow = true;
+coral.castShadow = true;
+coral.receiveShadow = true;
+waterPlant.castShadow = true;
+waterPlant.receiveShadow = true;
 
-function animate() {
-  requestAnimationFrame(animate);
 
-  fish.update();
-  ocean.update(); //update ocean (add effects)
+
+
+
+let lastTime = 0;
+
+function animate(time) {
+  // Calculate the time difference since the last frame
+  const deltaTime = time - lastTime;
+  lastTime = time;
+
+  // Normalize deltaTime to make sure the update rate is consistent regardless of frame rate
+  const delta = deltaTime * 0.001; // Convert to seconds
+
+  fish.update(delta);
+  waterPlant.update(delta);
+  orca.update(delta);
+  crab.update(delta);
 
   renderer.render(scene, camera);
+
+  requestAnimationFrame(animate);
 }
 
-animate();
+animate(0);
 
 
 function createGradient() {
@@ -54,12 +92,11 @@ function createGradient() {
   //create gradient
   const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
 
-  gradient.addColorStop(0, '#00BFFF');
-  gradient.addColorStop(0.3, '#2e58b0');
-  gradient.addColorStop(0.5, '#17377a');
-  gradient.addColorStop(0.7, '#092154');
-  gradient.addColorStop(1, '#00050f');
-
+  gradient.addColorStop(0, '#091f61');
+  gradient.addColorStop(0.3, '#010a24');
+  gradient.addColorStop(0.6, '#00030a');
+  gradient.addColorStop(1, '#000105');
+  
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
