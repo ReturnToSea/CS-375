@@ -1,13 +1,12 @@
-// lights.js
 import * as THREE from 'three';
 
 export function createLighting(scene) {
         
-    // Ambient light
+    //ambient light
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
-    // Directional light
+    //directional light
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
     directionalLight.position.set(0, 3, 6).normalize();
     directionalLight.target.position.set(0, 0, 0);

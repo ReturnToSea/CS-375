@@ -23,9 +23,4 @@ export class TreasureChest {
 
     });
   }
-
-  // No animation or updates needed for a static model
-  update() {
-    // Can be used for any interaction or behavior
-  }
 }

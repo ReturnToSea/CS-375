@@ -11,14 +11,12 @@ export class Rock {
   }
 
   loadModel() {
-    // Load the rock model (no animations)
     this.loader.load('Models/rock.glb', (gltf) => {
       this.rock = gltf.scene;
       this.scene.add(this.rock);
 
-      // Position and scale adjustments for the rock
-      this.rock.scale.set(1.5, 1.5, 1.5); // Adjust scale as needed
-      this.rock.position.set(-4.2, -8, -6.3); // Position the rock in the scene
+      this.rock.scale.set(1.5, 1.5, 1.5);
+      this.rock.position.set(-4.2, -8, -6.3);
 
       console.log("Rock model loaded");
 

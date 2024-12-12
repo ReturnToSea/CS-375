@@ -17,8 +17,6 @@ export class Coral2 {
       this.coral = gltf.scene;
       this.scene.add(this.coral);
 
-
-      //scale and position
       this.coral.scale.set(0.5, 0.5, 0.5);
       this.coral.position.set(-10.5, -6, 7);
       this.coral.rotation.set(0, 0, 0);

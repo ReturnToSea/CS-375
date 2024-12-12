@@ -8,7 +8,7 @@ export class WaterPlant {
     this.loader = new GLTFLoader();
     this.waterPlantOriginal = null;
     this.mixer = null; 
-    this.clonesMixers = []; // Array to hold mixers for the clones
+    this.clonesMixers = [];
 
     this.loadModel();
   }
@@ -24,11 +24,10 @@ export class WaterPlant {
 
       this.waterPlantOriginal.traverse((child) => {
         if (child.isMesh) {
-          child.material.color.set(0x125409); // Dark green color
+          child.material.color.set(0x125409);
         }
       });
 
-      // If the model has animations, create a mixer for the original model
       if (gltf.animations && gltf.animations.length > 0) {
         this.mixer = new THREE.AnimationMixer(this.waterPlantOriginal);
         gltf.animations.forEach((clip) => {
@@ -38,28 +37,24 @@ export class WaterPlant {
         });
       }
 
-      // Add clones to the scene and set up animation mixers for each clone
       this.addDuplicates(gltf.animations);
     });
   }
 
   addDuplicates(animations) {
-    const clones = 50; // Number of clones
+    const clones = 50;
     
-    // Variables to control the spawn range for positive and negative directions
-    const positiveXRange = 8; // Positive range for x-axis
-    const negativeXRange = 7; // Negative range for x-axis
-    const positiveZRange = 3; // Positive range for z-axis
-    const negativeZRange = 7.5; // Negative range for z-axis
+    const positiveXRange = 8;
+    const negativeXRange = 7;
+    const positiveZRange = 3;
+    const negativeZRange = 7.5;
   
     for (let i = 0; i < clones; i++) {
       const clonePlant = clone(this.waterPlantOriginal);
   
-      // Generate random offsets for x and z positions within the specified ranges
-      const xOffset = (Math.random() * (positiveXRange + negativeXRange)) - negativeXRange; // Random value between -negativeXRange and positiveXRange
-      const zOffset = (Math.random() * (positiveZRange + negativeZRange)) - negativeZRange; // Random value between -negativeZRange and positiveZRange
+      const xOffset = (Math.random() * (positiveXRange + negativeXRange)) - negativeXRange;
+      const zOffset = (Math.random() * (positiveZRange + negativeZRange)) - negativeZRange;
   
-      // Apply the random offsets to the clone position
       clonePlant.position.set(
         this.waterPlantOriginal.position.x + xOffset,
         this.waterPlantOriginal.position.y,
@@ -72,7 +67,6 @@ export class WaterPlant {
         this.waterPlantOriginal.scale.z
       );
   
-      // Create a new mixer for each clone and add animations to it
       const cloneMixer = new THREE.AnimationMixer(clonePlant);
       animations.forEach((clip) => {
         const action = cloneMixer.clipAction(clip);
@@ -80,7 +74,6 @@ export class WaterPlant {
         action.play();
       });
   
-      // Store the mixer for each clone
       this.clonesMixers.push(cloneMixer);
   
       this.scene.add(clonePlant);
@@ -90,12 +83,10 @@ export class WaterPlant {
   
 
   update(deltaTime) {
-    // Update the mixer for the original model
     if (this.mixer) {
       this.mixer.update(deltaTime);
     }
 
-    // Update the mixers for the clones
     this.clonesMixers.forEach((cloneMixer) => {
       cloneMixer.update(deltaTime);
     });

@@ -8,16 +8,8 @@ export class Coral3 {
     this.coral = null;
     this.mixer = null;
 
-    // //adding light in coral file cuz lazy
-    // this.addLights();
-
     this.loadModel();
   }
-
-//   addLights() {
-//     const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-//     this.scene.add(ambientLight);
-//   }
 
   loadModel() {
     this.loader.load('Models/fan_coral_med.glb', (gltf) => {

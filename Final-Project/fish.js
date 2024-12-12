@@ -48,7 +48,7 @@ export class Fish {
     if (this.fish) {
       let angleDiff = this.targetRotation - this.fish.rotation.y;
 
-      //normalize angle difference
+      //normalize angle
       if (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
       if (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
 
@@ -82,7 +82,6 @@ export class Fish {
 
   update(deltaTime) {
     if (this.fish) {
-      //update animation using deltaTime
       if (this.mixer) {
         this.mixer.update(deltaTime);
       }

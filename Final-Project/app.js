@@ -55,19 +55,13 @@ coral.receiveShadow = true;
 waterPlant.castShadow = true;
 waterPlant.receiveShadow = true;
 
-
-
-
-
 let lastTime = 0;
 
 function animate(time) {
-  // Calculate the time difference since the last frame
   const deltaTime = time - lastTime;
   lastTime = time;
 
-  // Normalize deltaTime to make sure the update rate is consistent regardless of frame rate
-  const delta = deltaTime * 0.001; // Convert to seconds
+  const delta = deltaTime * 0.001;
 
   fish.update(delta);
   waterPlant.update(delta);
@@ -89,7 +83,6 @@ function createGradient() {
 
   const ctx = canvas.getContext('2d');
 
-  //create gradient
   const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
 
   gradient.addColorStop(0, '#091f61');
