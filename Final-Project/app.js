@@ -11,6 +11,9 @@ import { Crab } from './crab.js'
 import { TreasureChest } from './chest.js'
 import { Anchor } from './anchor.js';
 import { Rock } from './rock.js';
+import { Ship } from './ship.js';
+import { createFog } from './fog.js';
+
 
 const w = window.innerWidth;
 const h = window.innerHeight;
@@ -29,6 +32,8 @@ const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 camera.position.z = 15;
 
 const scene = new THREE.Scene();
+//add fog
+createFog(scene);
 
 const gradientTexture = new THREE.CanvasTexture(createGradient());
 
@@ -45,6 +50,7 @@ const crab = new Crab(scene);
 const chest = new TreasureChest(scene);
 const anchor = new Anchor(scene);
 const rock = new Rock(scene);
+const ship = new Ship(scene);
 
 const { ambientLight, directionalLight } = createLighting(scene);
 
@@ -58,40 +64,40 @@ waterPlant.receiveShadow = true;
 let lastTime = 0;
 
 function animate(time) {
-  const deltaTime = time - lastTime;
-  lastTime = time;
+    const deltaTime = time - lastTime;
+    lastTime = time;
 
-  const delta = deltaTime * 0.001;
+    const delta = deltaTime * 0.001;
 
-  fish.update(delta);
-  waterPlant.update(delta);
-  orca.update(delta);
-  crab.update(delta);
+    fish.update(delta);
+    waterPlant.update(delta);
+    orca.update(delta);
+    crab.update(delta);
 
-  renderer.render(scene, camera);
+    renderer.render(scene, camera);
 
-  requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
 }
 
 animate(0);
 
 
 function createGradient() {
-  const canvas = document.createElement('canvas');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+    const canvas = document.createElement('canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-  const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d');
 
-  const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
 
-  gradient.addColorStop(0, '#091f61');
-  gradient.addColorStop(0.3, '#010a24');
-  gradient.addColorStop(0.6, '#00030a');
-  gradient.addColorStop(1, '#000105');
-  
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, '#091f61');
+    gradient.addColorStop(0.3, '#010a24');
+    gradient.addColorStop(0.6, '#00030a');
+    gradient.addColorStop(1, '#000105');
+    
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  return canvas;
+    return canvas;
 }
